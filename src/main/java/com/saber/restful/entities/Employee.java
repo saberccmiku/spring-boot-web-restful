@@ -12,6 +12,7 @@ public class Employee {
     private Integer gender;
     private Department department;
     private Date birth;
+    private Integer dId;
 
     public Integer getId() {
         return id;
@@ -60,8 +61,17 @@ public class Employee {
     public void setBirth(Date birth) {
         this.birth = birth;
     }
+
+    public Integer getdId() {
+        return dId;
+    }
+
+    public void setdId(Integer dId) {
+        this.dId = dId;
+    }
+
     public Employee(Integer id, String lastName, String email, Integer gender,
-                    Department department) {
+                    Department department,Integer dId) {
         super();
         this.id = id;
         this.lastName = lastName;
@@ -69,6 +79,7 @@ public class Employee {
         this.gender = gender;
         this.department = department;
         this.birth = new Date();
+        this.dId = dId;
     }
 
     public Employee() {
@@ -83,6 +94,7 @@ public class Employee {
                 ", gender=" + gender +
                 ", department=" + department +
                 ", birth=" + birth +
+                ", dId=" + dId +
                 '}';
     }
 	

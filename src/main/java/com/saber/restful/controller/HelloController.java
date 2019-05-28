@@ -1,38 +1,73 @@
 package com.saber.restful.controller;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.saber.restful.entities.Department;
+import com.saber.restful.entities.Employee;
+import com.saber.restful.mapper.DepartmentMapper;
+import com.saber.restful.service.EmployeeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * Created by Administrator on 2019/4/21
  */
-@Controller
+@RestController
 public class HelloController {
+    @Autowired
+    JdbcTemplate jdbcTemplate;
+    @Autowired
+    DepartmentMapper departmentMapper;
+    @Autowired
+    EmployeeService employeeService;
 
-//    @RequestMapping({"/","index.html"})
-//    public String index(){
-//        return "index";
-//    }
-
-//    @RequestMapping({"/","index.html"})
-//    public Map<String,Object> index(Map<String,Object> map){
-//        return map;
-//    }
-
-    @RequestMapping("/hello")
-    public String hello(){
-        return "你好";
+    @ResponseBody
+    @GetMapping("/query")
+    public Map<String,Object> map(){
+        List<Map<String, Object>> maps = jdbcTemplate.queryForList("SELECT  * from department");
+        Map<String,Object> emps = new HashMap<>();
+        emps.put("emps",maps);
+        return emps;
     }
 
-    @RequestMapping("/success")
-    public Map<String,Object> success(Map<String,Object> map){
-        map.put("hello","你好");
-        map.put("hello2","你好啊");
-        return map;
+    @GetMapping("/depart/{id}")
+    public Department queryById(@PathVariable("id") Integer id){
+        return departmentMapper.queryById(id);
     }
+
+    @GetMapping("/depart")
+    public Department insert(Department department){
+         departmentMapper.insert(department);
+         return department;
+    }
+
+    @GetMapping("/employee")
+    public Employee insertEmp(Employee employee){
+        employeeService.insertEmp(employee);
+        return employee;
+    }
+
+    @GetMapping("/employee/{id}")
+    public Employee queryEmpById(@PathVariable("id") Integer id){
+        return employeeService.queryById(id);
+    }
+
+    @GetMapping("/employee/updateEmp")
+    public Employee updateEmp(Employee employee){
+        return employeeService.update(employee);
+    }
+
+    @GetMapping("/employee/deleteEmp")
+    public String deleteEmp(Integer id){
+        employeeService.delete(id);
+        return "success";
+    }
+
+
 }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.saber.restful.mapper.EmployeeMapper">
+    <select id="queryById" resultType="com.saber.restful.entities.Employee">
+    select * from employee where id = #{id}
+</select>
+
+    <insert id="insert" >
+        INSERT INTO employee (lastName,email,gender,department,birth)
+        VALUES (#{lastName},#{email},#{gender},#{department},#{birth})
+    </insert>
+
+    <update id="update">
+        UPDATE employee SET lastName = #{lastName},email=#{email},gender=#{gender},department=#{department},birth=#{birth}
+    </update>
+
+    <delete id="delete" >
+        DELETE from employee where id = #{id}
+    </delete>
+</mapper>

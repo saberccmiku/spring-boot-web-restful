@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
@@ -17,7 +16,7 @@ public class MyMvcConfig implements WebMvcConfigurer {
     @Bean
     public WebMvcConfigurer WebMvcConfigurer() {
 
-        WebMvcConfigurer configurer = new WebMvcConfigurer() {
+        return new WebMvcConfigurer() {
             @Override
             public void addViewControllers(ViewControllerRegistry registry) {
                 registry.addViewController("/").setViewName("login");
@@ -29,11 +28,9 @@ public class MyMvcConfig implements WebMvcConfigurer {
             public void addInterceptors(InterceptorRegistry registry) {
                 registry.addInterceptor(new LoginHandlerInterceptor()).addPathPatterns("/**")
                         //springBoot2.x.x以下静态资源不拦截 以上会拦截所以需要自己排除静态资源包括webjars
-                .excludePathPatterns("/index.html","/","/user/login","/asserts/**","/webjars/**");
+                .excludePathPatterns("/index.html","/","/user/login","/asserts/**","/webjars/**","/employee/**","/depart/**");
             }
         };
-
-        return configurer;
     }
 
 }
